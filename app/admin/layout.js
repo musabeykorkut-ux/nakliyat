@@ -16,7 +16,9 @@ import {
   X,
   LogOut,
   Inbox,
-  ClipboardList
+  ClipboardList,
+  Search,
+  Image
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
