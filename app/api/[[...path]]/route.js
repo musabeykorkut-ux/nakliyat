@@ -1184,6 +1184,30 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json(data || {}))
     }
 
+    // =====================
+    // ADMIN SEO SETTINGS
+    // =====================
+    if (route === '/admin/seo' && method === 'GET') {
+      const { data } = await supabase.from('seo_settings').select('*')
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route === '/admin/seo' && method === 'POST') {
+      const body = await request.json()
+      // Check if exists
+      const { data: existing } = await supabase.from('seo_settings').select('*').eq('page_name', body.page_name).single()
+      
+      if (existing) {
+        // Update
+        const { data } = await supabase.from('seo_settings').update(body).eq('page_name', body.page_name).select().single()
+        return handleCORS(NextResponse.json(data))
+      } else {
+        // Insert
+        const { data } = await supabase.from('seo_settings').insert({ id: uuidv4(), ...body }).select().single()
+        return handleCORS(NextResponse.json(data))
+      }
+    }
+
     // Route not found
     return handleCORS(NextResponse.json(
       { error: `Route ${route} not found` },
