@@ -18,7 +18,8 @@ import {
   Inbox,
   ClipboardList,
   Search,
-  Image
+  Image,
+  ExternalLink
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
@@ -95,7 +96,7 @@ export default function AdminLayout({ children }) {
       <div className="flex">
         {/* Sidebar */}
         <aside className={`
-          fixed inset-y-0 left-0 z-50 w-64 bg-primary text-white transform transition-transform duration-300 ease-in-out
+          fixed inset-y-0 left-0 z-50 w-64 bg-primary text-white transform transition-transform duration-300 ease-in-out overflow-y-auto
           lg:relative lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
@@ -136,18 +137,18 @@ export default function AdminLayout({ children }) {
           </nav>
 
           {/* Sidebar Footer */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
+          <div className="p-4 border-t border-white/10 mt-auto space-y-2">
             <Link
               href="/"
               target="_blank"
-              className="flex items-center gap-3 px-4 py-2 text-white/70 hover:text-white transition-colors mb-2"
+              className="flex items-center gap-3 px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors w-full"
             >
-              <FileText className="h-5 w-5" />
+              <ExternalLink className="h-5 w-5" />
               <span>Siteyi Görüntüle</span>
             </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-2 text-white/70 hover:text-white transition-colors w-full"
+              className="flex items-center gap-3 px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors w-full"
             >
               <LogOut className="h-5 w-5" />
               <span>Çıkış Yap</span>

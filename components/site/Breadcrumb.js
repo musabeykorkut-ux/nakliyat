@@ -1,32 +1,46 @@
-'use client'
-
 import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'
 
-export default function Breadcrumb({ items }) {
+export default function Breadcrumb({ items, backgroundImage }) {
   return (
-    <nav className="bg-muted py-3" aria-label="Breadcrumb">
-      <div className="container">
-        <ol className="flex items-center flex-wrap gap-2 text-sm">
-          <li>
-            <Link href="/" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
+    <div 
+      className="relative bg-primary py-16 md:py-20"
+      style={{
+        backgroundImage: backgroundImage ? `linear-gradient(rgba(0, 60, 120, 0.85), rgba(0, 60, 120, 0.85)), url(${backgroundImage})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center text-center text-white">
+          {/* Title */}
+          {items && items.length > 0 && (
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              {items[items.length - 1].label}
+            </h1>
+          )}
+          
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center gap-2 text-sm text-white/80">
+            <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">
               <Home className="h-4 w-4" />
+              <span>Ana Sayfa</span>
             </Link>
-          </li>
-          {items.map((item, index) => (
-            <li key={index} className="flex items-center gap-2">
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              {item.href ? (
-                <Link href={item.href} className="text-muted-foreground hover:text-primary transition-colors">
-                  {item.label}
-                </Link>
-              ) : (
-                <span className="text-foreground font-medium">{item.label}</span>
-              )}
-            </li>
-          ))}
-        </ol>
+            {items && items.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <ChevronRight className="h-4 w-4" />
+                {index === items.length - 1 ? (
+                  <span className="text-white font-medium">{item.label}</span>
+                ) : (
+                  <Link href={item.href} className="hover:text-white transition-colors">
+                    {item.label}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </nav>
+        </div>
       </div>
-    </nav>
+    </div>
   )
 }
