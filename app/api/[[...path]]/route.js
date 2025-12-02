@@ -1045,6 +1045,136 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json({ url: urlData.publicUrl }))
     }
 
+    // =====================
+    // SLIDER ROUTES
+    // =====================
+    if (route === '/admin/sliders' && method === 'GET') {
+      const { data, error } = await supabase.from('sliders').select('*').order('display_order')
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route === '/admin/sliders' && method === 'POST') {
+      const body = await request.json()
+      const { data, error } = await supabase.from('sliders').insert({ id: uuidv4(), ...body }).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/sliders/') && method === 'PATCH') {
+      const id = route.split('/').pop()
+      const body = await request.json()
+      const { data, error } = await supabase.from('sliders').update(body).eq('id', id).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/sliders/') && method === 'DELETE') {
+      const id = route.split('/').pop()
+      await supabase.from('sliders').delete().eq('id', id)
+      return handleCORS(NextResponse.json({ success: true }))
+    }
+
+    // =====================
+    // TABS ROUTES
+    // =====================
+    if (route === '/admin/tabs' && method === 'GET') {
+      const { data } = await supabase.from('tabs').select('*').order('display_order')
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route === '/admin/tabs' && method === 'POST') {
+      const body = await request.json()
+      const { data } = await supabase.from('tabs').insert({ id: uuidv4(), ...body }).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/tabs/') && method === 'PATCH') {
+      const id = route.split('/').pop()
+      const body = await request.json()
+      const { data } = await supabase.from('tabs').update(body).eq('id', id).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/tabs/') && method === 'DELETE') {
+      const id = route.split('/').pop()
+      await supabase.from('tabs').delete().eq('id', id)
+      return handleCORS(NextResponse.json({ success: true }))
+    }
+
+    // =====================
+    // HERO CONTENT
+    // =====================
+    if (route === '/admin/hero-content' && method === 'GET') {
+      const { data } = await supabase.from('hero_content').select('*').single()
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
+    if (route === '/admin/hero-content' && method === 'PUT') {
+      const body = await request.json()
+      const { data } = await supabase.from('hero_content').update(body).eq('id', 'default').select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    // =====================
+    // PAGES ROUTES
+    // =====================
+    if (route === '/admin/pages' && method === 'GET') {
+      const { data } = await supabase.from('pages').select('*')
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route.startsWith('/admin/pages/') && method === 'GET') {
+      const pageKey = route.split('/').pop()
+      const { data } = await supabase.from('pages').select('*').eq('page_key', pageKey).single()
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
+    if (route.startsWith('/admin/pages/') && method === 'PATCH') {
+      const pageKey = route.split('/').pop()
+      const body = await request.json()
+      const { data } = await supabase.from('pages').update(body).eq('page_key', pageKey).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    // =====================
+    // MENU ROUTES
+    // =====================
+    if (route === '/admin/menu' && method === 'GET') {
+      const { data } = await supabase.from('menu_items').select('*').order('display_order')
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route === '/admin/menu' && method === 'POST') {
+      const body = await request.json()
+      const { data } = await supabase.from('menu_items').insert({ id: uuidv4(), ...body }).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/menu/') && method === 'PATCH') {
+      const id = route.split('/').pop()
+      const body = await request.json()
+      const { data } = await supabase.from('menu_items').update(body).eq('id', id).select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/menu/') && method === 'DELETE') {
+      const id = route.split('/').pop()
+      await supabase.from('menu_items').delete().eq('id', id)
+      return handleCORS(NextResponse.json({ success: true }))
+    }
+
+    // =====================
+    // FOOTER ROUTES
+    // =====================
+    if (route === '/admin/footer' && method === 'GET') {
+      const { data } = await supabase.from('footer_settings').select('*').single()
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
+    if (route === '/admin/footer' && method === 'PUT') {
+      const body = await request.json()
+      const { data } = await supabase.from('footer_settings').update(body).eq('id', 'default').select().single()
+      return handleCORS(NextResponse.json(data))
+    }
+
     // Route not found
     return handleCORS(NextResponse.json(
       { error: `Route ${route} not found` },
