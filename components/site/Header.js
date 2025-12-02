@@ -2,196 +2,122 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Menu, X, Phone, Truck, ChevronDown } from 'lucide-react'
+import { Phone, Mail, Menu, X, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 
-export default function Header({ settings, services = [], locations = [] }) {
-  const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const phone = settings?.phone || '0 (536) 740 92 06'
-  const phoneRaw = settings?.phone_raw || '05367409206'
-  const logo = settings?.logo || null
+export default function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [settings, setSettings] = useState(null)
+  const [menuItems, setMenuItems] = useState([])
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    fetch('/api/settings').then(r => r.json()).then(setSettings)
+    fetch('/api/admin/menu').then(r => r.json()).then(data => setMenuItems(data || []))
   }, [])
 
-  const mainNavLinks = [
-    { href: '/', label: 'Ana Sayfa' },
-    { href: '/hakkimizda', label: 'Hakkımızda' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/galeri', label: 'Galeri' },
-    { href: '/sss', label: 'SSS' },
-    { href: '/iletisim', label: 'İletişim' },
-  ]
+  const phone = settings?.phone || '0 (536) 740 92 06'
+  const phoneRaw = settings?.phone_raw || '05367409206'
+  const email = settings?.email || 'info@barajnakliyat.com'
+  const logo = settings?.logo
+
+  const parentMenus = menuItems.filter(item => !item.parent_id && item.is_active)
+  const getChildren = (parentId) => menuItems.filter(item => item.parent_id === parentId && item.is_active)
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'}`}>
+    <header className="bg-white shadow-sm sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-primary text-primary-foreground py-2">
-        <div className="container flex justify-between items-center text-sm">
-          <div className="flex items-center gap-4">
-            <span>7/24 Hizmetinizdeyiz</span>
+      <div className="bg-primary text-white py-2">
+        <div className="container mx-auto px-4 flex justify-between items-center text-sm">
+          <div className="flex gap-4">
+            <a href={`tel:${phoneRaw}`} className="flex items-center gap-1 hover:text-secondary transition">
+              <Phone className="h-4 w-4" />
+              <span>{phone}</span>
+            </a>
+            <a href={`mailto:${email}`} className="flex items-center gap-1 hover:text-secondary transition">
+              <Mail className="h-4 w-4" />
+              <span className="hidden md:inline">{email}</span>
+            </a>
           </div>
-          <a href={`tel:${phoneRaw}`} className="flex items-center gap-2 font-semibold hover:text-secondary transition-colors">
-            <Phone className="h-4 w-4" />
-            {phone}
-          </a>
+          <div className="text-xs">7/24 Hizmet</div>
         </div>
       </div>
 
-      {/* Main Header */}
-      <div className="container py-4">
+      {/* Main Nav */}
+      <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2">
             {logo ? (
-              <img src={logo} alt="Baraj Nakliyat" className="h-12 w-auto" />
+              <img src={logo} alt="Baraj Nakliyat" className="h-12 object-contain" />
             ) : (
-              <>
-                <div className="bg-primary p-2 rounded-lg">
-                  <Truck className="h-8 w-8 text-secondary" />
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold text-primary">Baraj Nakliyat</h1>
-                  <p className="text-xs text-muted-foreground">Adana Evden Eve Nakliyat</p>
-                </div>
-              </>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-bold">B</div>
+                <span className="text-xl font-bold text-primary">Baraj Nakliyat</span>
+              </div>
             )}
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            <Link
-              href="/"
-              className={`px-4 py-2 text-sm font-medium transition-colors ${pathname === '/' ? 'text-primary' : 'text-foreground hover:text-primary'}`}
-            >
-              Ana Sayfa
+          {/* Desktop Menu */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {parentMenus.map((menu) => {
+              const children = getChildren(menu.id)
+              if (menu.is_dropdown && children.length > 0) {
+                return (
+                  <div key={menu.id} className="relative group">
+                    <button className="flex items-center gap-1 hover:text-primary transition">
+                      {menu.title}
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                    <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                      {children.map(child => (
+                        <Link key={child.id} href={child.url || '#'} className="block px-4 py-2 hover:bg-primary/5 transition">
+                          {child.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )
+              }
+              return (
+                <Link key={menu.id} href={menu.url || '#'} className="hover:text-primary transition font-medium">
+                  {menu.title}
+                </Link>
+              )
+            })}
+            <Link href="/teklif-al">
+              <Button className="bg-secondary hover:bg-secondary/90">Ücretsiz Teklif Al</Button>
             </Link>
-
-            {/* Hizmetler Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Hizmetler <ChevronDown className="ml-1 h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                <DropdownMenuItem asChild>
-                  <Link href="/hizmetler" className="w-full cursor-pointer font-semibold">
-                    Tüm Hizmetler
-                  </Link>
-                </DropdownMenuItem>
-                <div className="border-t my-1" />
-                {services.length > 0 ? services.map((service) => (
-                  <DropdownMenuItem key={service.id} asChild>
-                    <Link href={`/hizmetler/${service.slug}`} className="w-full cursor-pointer">
-                      {service.title}
-                    </Link>
-                  </DropdownMenuItem>
-                )) : (
-                  <>
-                    <DropdownMenuItem asChild>
-                      <Link href="/hizmetler/asansorlu-tasimacilik" className="w-full cursor-pointer">Asansörlü Taşımacılık</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/hizmetler/sehir-ici-nakliyat" className="w-full cursor-pointer">Şehir İçi Nakliyat</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/hizmetler/sehirler-arasi-nakliyat" className="w-full cursor-pointer">Şehirler Arası Nakliyat</Link>
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Bölgeler Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Bölgeler <ChevronDown className="ml-1 h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                {locations.length > 0 ? locations.map((location) => (
-                  <DropdownMenuItem key={location.id} asChild>
-                    <Link href={`/bolgeler/${location.slug}`} className="w-full cursor-pointer">
-                      {location.name} Nakliyat
-                    </Link>
-                  </DropdownMenuItem>
-                )) : (
-                  <>
-                    <DropdownMenuItem asChild><Link href="/bolgeler/saricam" className="w-full cursor-pointer">Sarıçam Nakliyat</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link href="/bolgeler/cukurova" className="w-full cursor-pointer">Çukurova Nakliyat</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link href="/bolgeler/seyhan" className="w-full cursor-pointer">Seyhan Nakliyat</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link href="/bolgeler/yuregir" className="w-full cursor-pointer">Yüreğir Nakliyat</Link></DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {mainNavLinks.slice(1).map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${pathname === link.href ? 'text-primary' : 'text-foreground hover:text-primary'}`}
-              >
-                {link.label}
-              </Link>
-            ))}
           </nav>
 
-          {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link href="/teklif-al">
-              <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold">
-                Ücretsiz Teklif Al
-              </Button>
-            </Link>
-            <a href={`tel:${phoneRaw}`}>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
-                <Phone className="h-4 w-4 mr-2" />
-                Hemen Ara
-              </Button>
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button className="lg:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <button className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
           <nav className="lg:hidden mt-4 pb-4 border-t pt-4">
-            <div className="flex flex-col gap-2">
-              <Link href="/" className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg" onClick={() => setIsOpen(false)}>Ana Sayfa</Link>
-              <Link href="/hizmetler" className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg" onClick={() => setIsOpen(false)}>Hizmetler</Link>
-              <Link href="/bolgeler/saricam" className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg pl-8" onClick={() => setIsOpen(false)}>- Sarıçam</Link>
-              <Link href="/bolgeler/cukurova" className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg pl-8" onClick={() => setIsOpen(false)}>- Çukurova</Link>
-              {mainNavLinks.slice(1).map((link) => (
-                <Link key={link.href} href={link.href} className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg" onClick={() => setIsOpen(false)}>{link.label}</Link>
-              ))}
-              <div className="flex flex-col gap-2 mt-4 pt-4 border-t">
-                <Link href="/teklif-al" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full bg-secondary text-secondary-foreground">Ücretsiz Teklif Al</Button>
-                </Link>
-                <a href={`tel:${phoneRaw}`}>
-                  <Button variant="outline" className="w-full border-primary text-primary">
-                    <Phone className="h-4 w-4 mr-2" /> Hemen Ara
-                  </Button>
-                </a>
-              </div>
-            </div>
+            {parentMenus.map((menu) => {
+              const children = getChildren(menu.id)
+              return (
+                <div key={menu.id} className="py-2">
+                  <Link href={menu.url || '#'} className="block font-medium hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
+                    {menu.title}
+                  </Link>
+                  {children.length > 0 && (
+                    <div className="ml-4 mt-2 space-y-2">
+                      {children.map(child => (
+                        <Link key={child.id} href={child.url || '#'} className="block text-sm text-muted-foreground hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
+                          {child.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+            <Link href="/teklif-al" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="w-full mt-4">Ücretsiz Teklif Al</Button>
+            </Link>
           </nav>
         )}
       </div>
