@@ -165,21 +165,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Overview */}
+      {/* Featured Services - Öne Çıkan 3 Hizmet */}
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Hizmetlerimiz</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Öne Çıkan Hizmetlerimiz</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Adana'da evden eve nakliyat, asansörlü taşımacılık ve şehirler arası nakliyat hizmetleri
+              En çok tercih edilen hizmetlerimiz
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.slice(0, 6).map((service) => {
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {services.slice(0, 3).map((service) => {
               const IconComponent = iconMap[service.icon] || Truck
               return (
-                <Card key={service.id} className="group hover:shadow-lg transition-shadow">
+                <Card key={service.id} className="group hover:shadow-xl transition-all">
+                  {service.image && (
+                    <div className="relative h-48 overflow-hidden">
+                      <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                    </div>
+                  )}
                   <CardHeader>
                     <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
                       <IconComponent className="h-7 w-7 text-primary group-hover:text-white" />
@@ -188,8 +193,10 @@ export default function HomePage() {
                     <CardDescription>{service.short_description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Link href={`/hizmetler/${service.slug}`} className="inline-flex items-center text-primary font-medium hover:underline">
-                      Detaylı Bilgi <ArrowRight className="ml-2 h-4 w-4" />
+                    <Link href={`/hizmetler/${service.slug}`}>
+                      <Button className="w-full">
+                        Detaylı Bilgi <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
                     </Link>
                   </CardContent>
                 </Card>
