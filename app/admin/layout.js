@@ -26,11 +26,17 @@ import { Toaster } from '@/components/ui/sonner'
 
 const sidebarLinks = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/slider', label: 'Slider', icon: Image },
+  { href: '/admin/logo-favicon', label: 'Logo & Favicon', icon: Image },
   { href: '/admin/ayarlar', label: 'Site Ayarları', icon: Settings },
   { href: '/admin/anasayfa', label: 'Anasayfa', icon: FileText },
+  { href: '/admin/tabs', label: 'Tab Yönetimi', icon: FileText },
+  { href: '/admin/hero-content', label: 'Hero İçerik', icon: FileText },
+  { href: '/admin/menu', label: 'Menü Yönetimi', icon: Menu },
+  { href: '/admin/footer', label: 'Footer Ayarları', icon: Settings },
+  { href: '/admin/pages', label: 'Sayfalar', icon: FileText },
   { href: '/admin/seo', label: 'SEO Ayarları', icon: Search },
   { href: '/admin/hizmetler', label: 'Hizmetler', icon: Truck },
-  { href: '/admin/bolgeler', label: 'Bölgeler', icon: MapPin },
   { href: '/admin/blog', label: 'Blog Yazıları', icon: FileText },
   { href: '/admin/galeri', label: 'Galeri', icon: Image },
   { href: '/admin/sss', label: 'SSS', icon: HelpCircle },
