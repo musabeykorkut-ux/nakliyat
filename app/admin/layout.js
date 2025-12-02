@@ -26,9 +26,12 @@ import { Toaster } from '@/components/ui/sonner'
 const sidebarLinks = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/ayarlar', label: 'Site Ayarları', icon: Settings },
+  { href: '/admin/anasayfa', label: 'Anasayfa', icon: FileText },
+  { href: '/admin/seo', label: 'SEO Ayarları', icon: Search },
   { href: '/admin/hizmetler', label: 'Hizmetler', icon: Truck },
   { href: '/admin/bolgeler', label: 'Bölgeler', icon: MapPin },
   { href: '/admin/blog', label: 'Blog Yazıları', icon: FileText },
+  { href: '/admin/galeri', label: 'Galeri', icon: Image },
   { href: '/admin/sss', label: 'SSS', icon: HelpCircle },
   { href: '/admin/yorumlar', label: 'Müşteri Yorumları', icon: Users },
   { href: '/admin/teklif-talepleri', label: 'Teklif Talepleri', icon: ClipboardList },
