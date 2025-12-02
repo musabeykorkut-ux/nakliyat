@@ -58,6 +58,8 @@ export default function HomePage() {
   const [testimonials, setTestimonials] = useState(defaultTestimonials)
   const [blogPosts, setBlogPosts] = useState(defaultBlogPosts)
   const [settings, setSettings] = useState(null)
+  const [sliders, setSliders] = useState([])
+  const [heroContent, setHeroContent] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
