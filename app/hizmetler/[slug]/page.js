@@ -5,18 +5,35 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import SiteLayout from '@/components/site/SiteLayout'
 import Breadcrumb from '@/components/site/Breadcrumb'
+import Sidebar from '@/components/site/Sidebar'
+import ImageGallery from '@/components/site/ImageGallery'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { CheckCircle, Phone, ArrowRight, Truck } from 'lucide-react'
 import { toast } from 'sonner'
+
+const defaultServices = [
+  { id: '1', title: 'Asansörlü Taşımacılık', slug: 'asansorlu-tasimacilik', short_description: 'Yüksek katlara güvenli ve hızlı taşımacılık', content: '<h2>Asansörlü Taşımacılık Hizmeti</h2><p>Yüksek katlı binalarda taşınma işlemleri için profesyonel asansörlü taşımacılık hizmeti sunuyoruz. 8 kata kadar ulaşabilen modern asansör sistemimiz ile eşyalarınızı güvenle taşıyoruz.</p><h3>Hizmetin Avantajları</h3><ul><li>Hızlı ve güvenli taşıma</li><li>Eşyalara zarar vermeden taşıma</li><li>Zaman tasarrufu</li><li>Profesyonel ekip</li></ul>', image: 'https://images.unsplash.com/photo-1585541571714-01aa54eaf7c2?w=800' },
+  { id: '2', title: 'Şehir İçi Nakliyat', slug: 'sehir-ici-nakliyat', short_description: 'Adana içi hızlı ve ekonomik taşımacılık', content: '<h2>Şehir İçi Nakliyat</h2><p>Adana merkez ve tüm ilçelerinde şehir içi evden eve nakliyat hizmeti sunuyoruz.</p>', image: 'https://images.unsplash.com/photo-1602750766769-8db8d49cc369?w=800' },
+  { id: '3', title: 'Şehirler Arası Nakliyat', slug: 'sehirler-arasi-nakliyat', short_description: 'Türkiye geneli güvenli taşımacılık', content: '<h2>Şehirler Arası Nakliyat</h2><p>Türkiye genelinde şehirler arası taşımacılık hizmeti.</p>', image: 'https://images.unsplash.com/photo-1586864387634-29caff60e48e?w=800' },
+]
+
+const defaultFaqs = [
+  { id: '1', question: 'Asansörlü taşımacılık hangi durumlarda gereklidir?', answer: 'Yüksek katlar, dar merdiven boşlukları ve büyük eşyalar için asansörlü taşımacılık ideal bir çözümdür.' },
+  { id: '2', question: 'Fiyatlar nasıl belirlenir?', answer: 'Fiyatlarımız kat sayısı, eşya miktarı ve mesafeye göre belirlenir.' },
+  { id: '3', question: 'Sigorta var mı?', answer: 'Evet, tüm taşımacılık hizmetlerimiz sigorta kapsamındadır.' },
+]
 
 export default function ServiceDetailPage() {
   const params = useParams()
   const [service, setService] = useState(null)
-  const [services, setServices] = useState([])
+  const [services, setServices] = useState(defaultServices)
+  const [faqs, setFaqs] = useState(defaultFaqs)
+  const [gallery, setGallery] = useState([])
   const [settings, setSettings] = useState(null)
   const [loading, setLoading] = useState(true)
   const [formData, setFormData] = useState({ name: '', phone: '', from_district: '', to_district: '', notes: '' })
@@ -25,21 +42,52 @@ export default function ServiceDetailPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [serviceRes, servicesRes, settingsRes] = await Promise.all([
+        // Try to fetch from API
+        const [serviceRes, servicesRes, faqsRes, galleryRes, settingsRes] = await Promise.all([
           fetch(`/api/services/${params.slug}`),
           fetch('/api/services'),
+          fetch('/api/faq'),
+          fetch('/api/gallery'),
           fetch('/api/settings')
         ])
-        const [serviceData, servicesData, settingsData] = await Promise.all([
+        
+        const [serviceData, servicesData, faqsData, galleryData, settingsData] = await Promise.all([
           serviceRes.json(),
           servicesRes.json(),
+          faqsRes.json(),
+          galleryRes.json(),
           settingsRes.json()
         ])
-        if (!serviceData.error) setService(serviceData)
-        if (servicesData.length) setServices(servicesData.filter(s => s.slug !== params.slug).slice(0, 3))
-        if (settingsData) setSettings(settingsData)
+        
+        // Use API data if available, otherwise use defaults
+        if (!serviceData.error && serviceData.slug) {
+          setService(serviceData)
+        } else {
+          // Use default data
+          const defaultService = defaultServices.find(s => s.slug === params.slug)
+          setService(defaultService || null)
+        }
+        
+        if (servicesData && servicesData.length > 0) {
+          setServices(servicesData.filter(s => s.slug !== params.slug))
+        }
+        
+        if (faqsData && faqsData.length > 0) {
+          setFaqs(faqsData)
+        }
+        
+        if (galleryData && galleryData.length > 0) {
+          setGallery(galleryData.slice(0, 8))
+        }
+        
+        if (settingsData) {
+          setSettings(settingsData)
+        }
       } catch (error) {
         console.error('Data fetch error:', error)
+        // Use default data on error
+        const defaultService = defaultServices.find(s => s.slug === params.slug)
+        setService(defaultService || null)
       } finally {
         setLoading(false)
       }
@@ -69,9 +117,6 @@ export default function ServiceDetailPage() {
     }
   }
 
-  const phone = settings?.phone || '0 (536) 740 92 06'
-  const phoneRaw = settings?.phone_raw || '05367409206'
-
   if (loading) {
     return (
       <SiteLayout>
@@ -85,11 +130,18 @@ export default function ServiceDetailPage() {
   if (!service) {
     return (
       <SiteLayout>
-        <div className="container py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Hizmet Bulunamadı</h1>
-          <Link href="/hizmetler">
-            <Button>Tüm Hizmetler</Button>
-          </Link>
+        <Breadcrumb items={[{ label: 'Hizmetler', href: '/hizmetler' }, { label: 'Hizmet Bulunamadı', href: '#' }]} />
+        <div className="container mx-auto px-4 py-12">
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <Truck className="h-16 w-16 text-muted-foreground mb-4" />
+              <h2 className="text-2xl font-bold mb-2">Hizmet Bulunamadı</h2>
+              <p className="text-muted-foreground mb-4">Aradığınız hizmet bulunamadı.</p>
+              <Link href="/hizmetler">
+                <Button>Tüm Hizmetler</Button>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </SiteLayout>
     )
@@ -97,174 +149,137 @@ export default function ServiceDetailPage() {
 
   return (
     <SiteLayout>
-      <Breadcrumb items={[
-        { href: '/hizmetler', label: 'Hizmetler' },
-        { label: service.title }
-      ]} />
+      <Breadcrumb 
+        items={[
+          { label: 'Hizmetler', href: '/hizmetler' },
+          { label: service.title, href: '#' }
+        ]}
+        backgroundImage={service.image}
+      />
 
-      <section className="py-12">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2">
-              {/* Hero */}
-              <div className="relative h-64 md:h-80 rounded-xl overflow-hidden mb-8">
-                <img
-                  src={service.image || 'https://images.unsplash.com/photo-1602750766769-8db8d49cc369?w=800'}
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-6 left-6">
-                  <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{service.title}</h1>
-                  <p className="text-white/80">{service.short_description}</p>
-                </div>
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Service Image */}
+            {service.image && (
+              <div className="rounded-lg overflow-hidden">
+                <img src={service.image} alt={service.title} className="w-full h-[400px] object-cover" />
               </div>
+            )}
 
-              {/* Content */}
-              <div className="prose prose-lg max-w-none mb-8">
-                {service.content ? (
-                  <div dangerouslySetInnerHTML={{ __html: service.content.replace(/\n/g, '<br/>') }} />
-                ) : (
-                  <>
-                    <p>
-                      Baraj Nakliyat olarak Adana'da <strong>{service.title.toLowerCase()}</strong> hizmeti sunuyoruz. 
-                      10 yılı aşkın tecrübemizle eşyalarınızı güvenle taşıyoruz.
-                    </p>
-                    <h2>Hizmet Özellikleri</h2>
-                    <ul>
-                      <li>Sigortalı taşımacılık</li>
-                      <li>Profesyonel paketleme</li>
-                      <li>Deneyimli ekip</li>
-                      <li>Zamanında teslimat</li>
-                      <li>Ücretsiz ekspertiz</li>
-                    </ul>
-                  </>
+            {/* Service Content */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">{service.title}</CardTitle>
+                {service.short_description && (
+                  <p className="text-muted-foreground">{service.short_description}</p>
                 )}
-              </div>
+              </CardHeader>
+              <CardContent>
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: service.content }} />
+              </CardContent>
+            </Card>
 
-              {/* Benefits */}
-              <Card className="mb-8">
+            {/* Gallery */}
+            {gallery.length > 0 && (
+              <Card>
                 <CardHeader>
-                  <CardTitle>Neden Bizi Seçmelisiniz?</CardTitle>
+                  <CardTitle>Galeri</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {[
-                      'Sigortalı taşımacılık garantisi',
-                      'Profesyonel paketleme hizmeti',
-                      '10+ yıl deneyimli ekip',
-                      'Uygun fiyat garantisi',
-                      '7/24 müşteri desteği',
-                      'Ücretsiz ekspertiz hizmeti'
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <ImageGallery images={gallery} />
                 </CardContent>
               </Card>
+            )}
 
-              {/* Related Services */}
-              {services.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold mb-4">Diğer Hizmetlerimiz</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {services.map((s) => (
-                      <Link key={s.id} href={`/hizmetler/${s.slug}`}>
-                        <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                          <CardContent className="p-4 flex items-center gap-3">
-                            <Truck className="h-8 w-8 text-primary" />
-                            <span className="font-medium">{s.title}</span>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    ))}
+            {/* Quote Form */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Ücretsiz Teklif Alın</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Adınız Soyadınız *</Label>
+                      <Input 
+                        value={formData.name} 
+                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))} 
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Telefon *</Label>
+                      <Input 
+                        value={formData.phone} 
+                        onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))} 
+                        required 
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Nereden</Label>
+                      <Input 
+                        value={formData.from_district} 
+                        onChange={(e) => setFormData(prev => ({ ...prev, from_district: e.target.value }))} 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Nereye</Label>
+                      <Input 
+                        value={formData.to_district} 
+                        onChange={(e) => setFormData(prev => ({ ...prev, to_district: e.target.value }))} 
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Notlar</Label>
+                    <Textarea 
+                      value={formData.notes} 
+                      onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))} 
+                      rows={4}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={submitting}>
+                    {submitting ? 'Gönderiliyor...' : 'Teklif Al'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24 space-y-6">
-                {/* Quick Contact */}
-                <Card className="bg-primary text-white">
-                  <CardContent className="p-6 text-center">
-                    <Phone className="h-12 w-12 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">Hemen Arayın</h3>
-                    <p className="text-white/80 mb-4">Ücretsiz teklif alın</p>
-                    <a href={`tel:${phoneRaw}`}>
-                      <Button size="lg" className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                        {phone}
-                      </Button>
-                    </a>
-                  </CardContent>
-                </Card>
+            {/* FAQs */}
+            {faqs.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Sık Sorulan Sorular</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Accordion type="single" collapsible>
+                    {faqs.map((faq, index) => (
+                      <AccordionItem key={faq.id} value={`faq-${index}`}>
+                        <AccordionTrigger>{faq.question}</AccordionTrigger>
+                        <AccordionContent>{faq.answer}</AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            )}
+          </div>
 
-                {/* Quick Quote Form */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Hızlı Teklif Al</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label>Ad Soyad</Label>
-                        <Input
-                          value={formData.name}
-                          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Telefon</Label>
-                        <Input
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                          required
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="space-y-2">
-                          <Label>Çıkış İlçe</Label>
-                          <Input
-                            value={formData.from_district}
-                            onChange={(e) => setFormData(prev => ({ ...prev, from_district: e.target.value }))}
-                            placeholder="Sarıçam"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Varış İlçe</Label>
-                          <Input
-                            value={formData.to_district}
-                            onChange={(e) => setFormData(prev => ({ ...prev, to_district: e.target.value }))}
-                            placeholder="Çukurova"
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Not</Label>
-                        <Textarea
-                          value={formData.notes}
-                          onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-                          rows={2}
-                        />
-                      </div>
-                      <Button type="submit" className="w-full" disabled={submitting}>
-                        {submitting ? 'Gönderiliyor...' : 'Teklif İste'}
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <Sidebar 
+              services={services} 
+              faqs={faqs.slice(0, 3)} 
+              settings={settings}
+              currentSlug={service.slug}
+            />
           </div>
         </div>
-      </section>
+      </div>
     </SiteLayout>
   )
 }
