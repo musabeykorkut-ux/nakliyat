@@ -12,36 +12,36 @@ import { Phone, Truck, Shield, Clock, Award, CheckCircle, ArrowRight, Star, MapP
 
 // Default data for when database is empty
 const defaultServices = [
-  { id: '1', title: 'Asans\u00f6rl\u00fc Ta\u015f\u0131mac\u0131l\u0131k', slug: 'asansorlu-tasimacilik', short_description: 'Y\u00fcksek katlara g\u00fcvenli ve h\u0131zl\u0131 ta\u015f\u0131mac\u0131l\u0131k', icon: 'Building2' },
-  { id: '2', title: '\u015eehir \u0130\u00e7i Nakliyat', slug: 'sehir-ici-nakliyat', short_description: 'Adana i\u00e7i h\u0131zl\u0131 ve ekonomik ta\u015f\u0131mac\u0131l\u0131k', icon: 'Truck' },
-  { id: '3', title: '\u015eehirler Aras\u0131 Nakliyat', slug: 'sehirler-arasi-nakliyat', short_description: 'T\u00fcrkiye geneli g\u00fcvenli ta\u015f\u0131mac\u0131l\u0131k', icon: 'MapPin' },
-  { id: '4', title: 'Sar\u0131\u00e7am Nakliyat', slug: 'saricam-nakliyat', short_description: 'Sar\u0131\u00e7am b\u00f6lgesi \u00f6zel hizmet', icon: 'Truck' },
-  { id: '5', title: '\u00c7ukurova Nakliyat', slug: 'cukurova-nakliyat', short_description: '\u00c7ukurova b\u00f6lgesi \u00f6zel hizmet', icon: 'Truck' },
+  { id: '1', title: 'Asansörlü Taşımacılık', slug: 'asansorlu-tasimacilik', short_description: 'Yüksek katlara güvenli ve hızlı taşımacılık', icon: 'Building2' },
+  { id: '2', title: 'Şehir İçi Nakliyat', slug: 'sehir-ici-nakliyat', short_description: 'Adana içi hızlı ve ekonomik taşımacılık', icon: 'Truck' },
+  { id: '3', title: 'Şehirler Arası Nakliyat', slug: 'sehirler-arasi-nakliyat', short_description: 'Türkiye geneli güvenli taşımacılık', icon: 'MapPin' },
+  { id: '4', title: 'Sarıçam Nakliyat', slug: 'saricam-nakliyat', short_description: 'Sarıçam bölgesi özel hizmet', icon: 'Truck' },
+  { id: '5', title: 'Çukurova Nakliyat', slug: 'cukurova-nakliyat', short_description: 'Çukurova bölgesi özel hizmet', icon: 'Truck' },
 ]
 
 const defaultLocations = [
-  { id: '1', name: 'Sar\u0131\u00e7am', slug: 'saricam' },
-  { id: '2', name: '\u00c7ukurova', slug: 'cukurova' },
+  { id: '1', name: 'Sarıçam', slug: 'saricam' },
+  { id: '2', name: 'Çukurova', slug: 'cukurova' },
   { id: '3', name: 'Seyhan', slug: 'seyhan' },
-  { id: '4', name: 'Y\u00fcre\u011fir', slug: 'yuregir' },
+  { id: '4', name: 'Yüreğir', slug: 'yuregir' },
   { id: '5', name: 'Ceyhan', slug: 'ceyhan' },
 ]
 
 const defaultFaqs = [
-  { id: '1', question: 'Evden eve nakliyat fiyatlar\u0131 nas\u0131l belirlenir?', answer: 'Fiyatlar\u0131m\u0131z e\u015fya miktar\u0131, mesafe, kat say\u0131s\u0131 ve ek hizmetlere g\u00f6re belirlenir. \u00dccretsiz ekspertiz ile kesin fiyat al\u0131n.', category: 'Genel' },
-  { id: '2', question: 'Asans\u00f6rl\u00fc ta\u015f\u0131mac\u0131l\u0131k hangi durumlarda gereklidir?', answer: 'Y\u00fcksek katlar, dar merdiven bo\u015fluklar\u0131 ve b\u00fcy\u00fck e\u015fyalar i\u00e7in asans\u00f6rl\u00fc ta\u015f\u0131mac\u0131l\u0131k ideal bir \u00e7\u00f6z\u00fcmd\u00fcr.', category: 'Asans\u00f6rl\u00fc Ta\u015f\u0131mac\u0131l\u0131k' },
-  { id: '3', question: 'E\u015fyalar\u0131m sigortal\u0131 m\u0131?', answer: 'Evet, t\u00fcm ta\u015f\u0131mac\u0131l\u0131k hizmetlerimiz sigorta kapsam\u0131ndad\u0131r.', category: 'Genel' },
+  { id: '1', question: 'Evden eve nakliyat fiyatları nasıl belirlenir?', answer: 'Fiyatlarımız eşya miktarı, mesafe, kat sayısı ve ek hizmetlere göre belirlenir. Ücretsiz ekspertiz ile kesin fiyat alın.', category: 'Genel' },
+  { id: '2', question: 'Asansörlü taşımacılık hangi durumlarda gereklidir?', answer: 'Yüksek katlar, dar merdiven boşlukları ve büyük eşyalar için asansörlü taşımacılık ideal bir çözümdür.', category: 'Asansörlü Taşımacılık' },
+  { id: '3', question: 'Eşyalarım sigortalı mı?', answer: 'Evet, tüm taşımacılık hizmetlerimiz sigorta kapsamındadır.', category: 'Genel' },
 ]
 
 const defaultTestimonials = [
-  { id: '1', name: 'Ahmet Y\u0131lmaz', district: 'Sar\u0131\u00e7am', rating: 5, comment: 'Harika bir hizmet ald\u0131k. Ekip \u00e7ok \u00f6zverili ve dikkatli \u00e7al\u0131\u015ft\u0131. Te\u015fekk\u00fcrler Baraj Nakliyat!' },
-  { id: '2', name: 'Fatma Demir', district: '\u00c7ukurova', rating: 5, comment: 'Zaman\u0131nda geldiler ve t\u00fcm e\u015fyalar\u0131m\u0131z\u0131 \u00f6zenle ta\u015f\u0131d\u0131lar. Kesinlikle tavsiye ederim.' },
-  { id: '3', name: 'Mehmet Kaya', district: 'Seyhan', rating: 5, comment: 'Fiyat/performans \u00e7ok iyi. Profesyonel ekip, kaliteli hizmet.' },
+  { id: '1', name: 'Ahmet Yılmaz', district: 'Sarıçam', rating: 5, comment: 'Harika bir hizmet aldık. Ekip çok özverili ve dikkatli çalıştı. Teşekkürler Baraj Nakliyat!' },
+  { id: '2', name: 'Fatma Demir', district: 'Çukurova', rating: 5, comment: 'Zamanında geldiler ve tüm eşyalarımızı özenle taşıdılar. Kesinlikle tavsiye ederim.' },
+  { id: '3', name: 'Mehmet Kaya', district: 'Seyhan', rating: 5, comment: 'Fiyat/performans çok iyi. Profesyonel ekip, kaliteli hizmet.' },
 ]
 
 const defaultBlogPosts = [
-  { id: '1', title: 'Ta\u015f\u0131nma \u0130pu\u00e7lar\u0131: Stressiz Bir Ta\u015f\u0131nma \u0130\u00e7in', slug: 'tasinma-ipuclari', excerpt: 'Ta\u015f\u0131nma s\u00fcrecini kolayla\u015ft\u0131racak pratik \u00f6neriler...', category: 'Ta\u015f\u0131nma \u0130pu\u00e7lar\u0131', image: 'https://images.unsplash.com/photo-1602750766769-8db8d49cc369?w=400' },
-  { id: '2', title: 'Asans\u00f6rl\u00fc Ta\u015f\u0131mac\u0131l\u0131k Rehberi', slug: 'asansorlu-tasimacilik-rehberi', excerpt: 'Y\u00fcksek katlara ta\u015f\u0131n\u0131rken bilmeniz gerekenler...', category: 'Rehber', image: 'https://images.unsplash.com/photo-1585541571714-01aa54eaf7c2?w=400' },
+  { id: '1', title: 'Taşınma İpuçları: Stressiz Bir Taşınma İçin', slug: 'tasinma-ipuclari', excerpt: 'Taşınma sürecini kolaylaştıracak pratik öneriler...', category: 'Taşınma İpuçları', image: 'https://images.unsplash.com/photo-1602750766769-8db8d49cc369?w=400' },
+  { id: '2', title: 'Asansörlü Taşımacılık Rehberi', slug: 'asansorlu-tasimacilik-rehberi', excerpt: 'Yüksek katlara taşınırken bilmeniz gerekenler...', category: 'Rehber', image: 'https://images.unsplash.com/photo-1585541571714-01aa54eaf7c2?w=400' },
 ]
 
 const iconMap = {
@@ -159,7 +159,7 @@ export default function HomePage() {
             <div className="hidden md:block w-px h-6 bg-secondary-foreground/30"></div>
             <div className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              <span className="font-semibold">Sigortal\u0131 Ta\u015f\u0131mac\u0131l\u0131k</span>
+              <span className="font-semibold">Sigortalı Taşımacılık</span>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Hizmetlerimiz</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Adana'da evden eve nakliyat, asans\u00f6rl\u00fc ta\u015f\u0131mac\u0131l\u0131k ve \u015fehirler aras\u0131 nakliyat hizmetleri
+              Adana'da evden eve nakliyat, asansörlü taşımacılık ve şehirler arası nakliyat hizmetleri
             </p>
           </div>
           
@@ -189,7 +189,7 @@ export default function HomePage() {
                   </CardHeader>
                   <CardContent>
                     <Link href={`/hizmetler/${service.slug}`} className="inline-flex items-center text-primary font-medium hover:underline">
-                      Detayl\u0131 Bilgi <ArrowRight className="ml-2 h-4 w-4" />
+                      Detaylı Bilgi <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </CardContent>
                 </Card>
@@ -200,7 +200,7 @@ export default function HomePage() {
           <div className="text-center mt-8">
             <Link href="/hizmetler">
               <Button variant="outline" size="lg">
-                T\u00fcm Hizmetleri G\u00f6r <ArrowRight className="ml-2 h-4 w-4" />
+                Tüm Hizmetleri Gör <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
@@ -258,7 +258,7 @@ export default function HomePage() {
               </Card>
               <div className="text-center mt-6">
                 <Link href="/sss">
-                  <Button variant="outline">T\u00fcm Sorular\u0131 G\u00f6r <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                  <Button variant="outline">Tüm Soruları Gör <ArrowRight className="ml-2 h-4 w-4" /></Button>
                 </Link>
               </div>
             </TabsContent>
@@ -271,32 +271,32 @@ export default function HomePage() {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Neden Baraj Nakliyat?</h2>
-            <p className="text-lg text-muted-foreground">Y\u0131llar\u0131n tecr\u00fcbesi ve binlerce mutlu m\u00fc\u015fteri</p>
+            <p className="text-lg text-muted-foreground">Yılların tecrübesi ve binlerce mutlu müşteri</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center p-6 border-t-4 border-t-primary">
               <Shield className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h3 className="text-xl font-semibold mb-2">Sigortal\u0131 Ta\u015f\u0131ma</h3>
-              <p className="text-muted-foreground">T\u00fcm e\u015fyalar\u0131n\u0131z sigorta g\u00fcvencesi alt\u0131nda</p>
+              <h3 className="text-xl font-semibold mb-2">Sigortalı Taşıma</h3>
+              <p className="text-muted-foreground">Tüm eşyalarınız sigorta güvencesi altında</p>
             </Card>
             
             <Card className="text-center p-6 border-t-4 border-t-secondary">
               <Clock className="h-12 w-12 mx-auto mb-4 text-secondary" />
-              <h3 className="text-xl font-semibold mb-2">Zaman\u0131nda Teslim</h3>
-              <p className="text-muted-foreground">S\u00f6z verdi\u011fimiz saatte, eksiksiz teslim</p>
+              <h3 className="text-xl font-semibold mb-2">Zamanında Teslim</h3>
+              <p className="text-muted-foreground">Söz verdiğimiz saatte, eksiksiz teslim</p>
             </Card>
             
             <Card className="text-center p-6 border-t-4 border-t-primary">
               <Award className="h-12 w-12 mx-auto mb-4 text-primary" />
               <h3 className="text-xl font-semibold mb-2">Deneyimli Ekip</h3>
-              <p className="text-muted-foreground">10+ y\u0131l tecr\u00fcbeli profesyonel kadro</p>
+              <p className="text-muted-foreground">10+ yıl tecrübeli profesyonel kadro</p>
             </Card>
             
             <Card className="text-center p-6 border-t-4 border-t-secondary">
               <CheckCircle className="h-12 w-12 mx-auto mb-4 text-secondary" />
               <h3 className="text-xl font-semibold mb-2">Uygun Fiyat</h3>
-              <p className="text-muted-foreground">Kaliteli hizmet, makul fiyat politikas\u0131</p>
+              <p className="text-muted-foreground">Kaliteli hizmet, makul fiyat politikası</p>
             </Card>
           </div>
         </div>
@@ -306,17 +306,17 @@ export default function HomePage() {
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Nas\u0131l \u00c7al\u0131\u015f\u0131r\u0131z?</h2>
-            <p className="text-lg text-primary-foreground/80">5 kolay ad\u0131mda ta\u015f\u0131nma s\u00fcreci</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Nasıl Çalışırız?</h2>
+            <p className="text-lg text-primary-foreground/80">5 kolay adımda taşınma süreci</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {[
-              { step: 1, title: '\u00dccretsiz Ekspertiz', desc: 'Sizi aray\u0131n, \u00fccretsiz kesin fiyat teklifi al\u0131n' },
-              { step: 2, title: 'Planlama', desc: 'Ta\u015f\u0131nma tarihini ve detaylar\u0131 planlayoruz' },
-              { step: 3, title: 'Paketleme', desc: 'E\u015fyalar\u0131n\u0131z\u0131 \u00f6zenle paketliyoruz' },
-              { step: 4, title: 'Ta\u015f\u0131ma', desc: 'G\u00fcvenli bir \u015fekilde yeni adresinize ta\u015f\u0131yoruz' },
-              { step: 5, title: 'Kurulum', desc: 'E\u015fyalar\u0131n\u0131z\u0131 yerine yerle\u015ftiriyoruz' },
+              { step: 1, title: 'Ücretsiz Ekspertiz', desc: 'Sizi arayın, ücretsiz kesin fiyat teklifi alın' },
+              { step: 2, title: 'Planlama', desc: 'Taşınma tarihini ve detayları planlayoruz' },
+              { step: 3, title: 'Paketleme', desc: 'Eşyalarınızı özenle paketliyoruz' },
+              { step: 4, title: 'Taşıma', desc: 'Güvenli bir şekilde yeni adresinize taşıyoruz' },
+              { step: 5, title: 'Kurulum', desc: 'Eşyalarınızı yerine yerleştiriyoruz' },
             ].map((item) => (
               <div key={item.step} className="text-center">
                 <div className="w-16 h-16 rounded-full bg-secondary text-secondary-foreground font-bold text-2xl flex items-center justify-center mx-auto mb-4">
@@ -334,8 +334,8 @@ export default function HomePage() {
       <section className="py-16 bg-background">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">M\u00fc\u015fteri Yorumlar\u0131</h2>
-            <p className="text-lg text-muted-foreground">Mutlu m\u00fc\u015fterilerimizin g\u00f6r\u00fc\u015fleri</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Müşteri Yorumları</h2>
+            <p className="text-lg text-muted-foreground">Mutlu müşterilerimizin görüşleri</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -367,7 +367,7 @@ export default function HomePage() {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Blog & Makaleler</h2>
-            <p className="text-lg text-muted-foreground">Ta\u015f\u0131nma ipu\u00e7lar\u0131 ve rehberler</p>
+            <p className="text-lg text-muted-foreground">Taşınma ipuçları ve rehberler</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -388,7 +388,7 @@ export default function HomePage() {
                 </CardHeader>
                 <CardContent>
                   <Link href={`/blog/${post.slug}`} className="inline-flex items-center text-primary font-medium hover:underline">
-                    Devam\u0131n\u0131 Oku <ArrowRight className="ml-2 h-4 w-4" />
+                    Devamını Oku <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </CardContent>
               </Card>
@@ -398,7 +398,7 @@ export default function HomePage() {
           <div className="text-center mt-8">
             <Link href="/blog">
               <Button variant="outline" size="lg">
-                T\u00fcm Yaz\u0131lar <ArrowRight className="ml-2 h-4 w-4" />
+                Tüm Yazılar <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
@@ -409,10 +409,10 @@ export default function HomePage() {
       <section className="py-16 bg-primary">
         <div className="container text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Adana'da G\u00fcvenilir Evden Eve Nakliyat
+            Adana'da Güvenilir Evden Eve Nakliyat
           </h2>
           <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-            Hemen aray\u0131n, \u00fccretsiz ekspertiz ve fiyat teklifi al\u0131n!
+            Hemen arayın, ücretsiz ekspertiz ve fiyat teklifi alın!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={`tel:${phoneRaw}`}>
@@ -423,7 +423,7 @@ export default function HomePage() {
             </a>
             <Link href="/teklif-al">
               <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary text-lg px-8">
-                \u00dccretsiz Teklif Al
+                Ücretsiz Teklif Al
               </Button>
             </Link>
           </div>
