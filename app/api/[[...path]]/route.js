@@ -217,6 +217,53 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json(data || []))
     }
 
+    // GET /api/gallery - Get all gallery items
+    if (route === '/gallery' && method === 'GET') {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order', { ascending: true })
+      
+      if (error) {
+        console.error('Gallery error:', error)
+        return handleCORS(NextResponse.json([]))
+      }
+      
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    // GET /api/homepage - Get homepage content
+    if (route === '/homepage' && method === 'GET') {
+      const { data, error } = await supabase
+        .from('homepage')
+        .select('*')
+        .single()
+      
+      if (error) {
+        console.error('Homepage error:', error)
+        return handleCORS(NextResponse.json({}))
+      }
+      
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
+    // GET /api/seo/[page] - Get SEO settings for a page
+    if (route.startsWith('/seo/') && method === 'GET') {
+      const pageName = path[1]
+      const { data, error } = await supabase
+        .from('seo_settings')
+        .select('*')
+        .eq('page_name', pageName)
+        .single()
+      
+      if (error) {
+        return handleCORS(NextResponse.json({}))
+      }
+      
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
     // POST /api/quote-request - Submit quote request
     if (route === '/quote-request' && method === 'POST') {
       const body = await request.json()
