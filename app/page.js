@@ -62,13 +62,15 @@ export default function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [servicesRes, locationsRes, faqsRes, testimonialsRes, blogRes, settingsRes] = await Promise.all([
+        const [servicesRes, locationsRes, faqsRes, testimonialsRes, blogRes, settingsRes, slidersRes, heroRes] = await Promise.all([
           fetch('/api/services/featured'),
           fetch('/api/locations'),
           fetch('/api/faq'),
           fetch('/api/testimonials'),
           fetch('/api/blog/featured'),
-          fetch('/api/settings')
+          fetch('/api/settings'),
+          fetch('/api/admin/sliders'),
+          fetch('/api/admin/hero-content')
         ])
 
         const [servicesData, locationsData, faqsData, testimonialsData, blogData, settingsData] = await Promise.all([
