@@ -49,6 +49,8 @@ CREATE TABLE services (
   meta_title TEXT,
   meta_description TEXT,
   meta_keywords TEXT,
+  og_image TEXT,
+  canonical_url TEXT,
   status TEXT DEFAULT 'published',
   display_order INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
