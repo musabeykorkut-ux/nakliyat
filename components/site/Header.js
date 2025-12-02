@@ -12,35 +12,36 @@ export default function Header() {
 
   useEffect(() => {
     fetch('/api/settings').then(r => r.json()).then(setSettings)
-    fetch('/api/admin/menu').then(r => r.json()).then(data => {
-      setMenuItems(data || [])
-    }).catch(() => {
-      // Fallback: Hizmetleri çek ve menüye ekle
-      fetch('/api/services').then(r => r.json()).then(services => {
-        const serviceMenu = {
-          id: 'services',
-          title: 'Hizmetler',
-          url: '/hizmetler',
-          is_dropdown: true,
-          is_active: true,
-          display_order: 2
-        }
+    
+    // Hizmetleri çek ve menü oluştur
+    Promise.all([
+      fetch('/api/admin/menu').then(r => r.json()).catch(() => []),
+      fetch('/api/services').then(r => r.json()).catch(() => [])
+    ]).then(([menuData, services]) => {
+      if (menuData && menuData.length > 0) {
+        setMenuItems(menuData)
+      } else {
+        // Fallback menü
         const serviceChildren = services.map(s => ({
-          id: s.id,
+          id: `service-${s.id}`,
           title: s.title,
           url: `/hizmetler/${s.slug}`,
           parent_id: 'services',
-          is_active: true
+          is_active: true,
+          display_order: 0
         }))
+        
         setMenuItems([
-          { id: '1', title: 'Ana Sayfa', url: '/', is_active: true, display_order: 1 },
-          serviceMenu,
+          { id: 'menu-1', title: 'Ana Sayfa', url: '/', is_active: true, display_order: 1 },
+          { id: 'services', title: 'Hizmetler', url: '/hizmetler', is_dropdown: true, is_active: true, display_order: 2 },
           ...serviceChildren,
-          { id: '3', title: 'Blog', url: '/blog', is_active: true, display_order: 3 },
-          { id: '4', title: 'Hakkımızda', url: '/hakkimizda', is_active: true, display_order: 4 },
-          { id: '5', title: 'İletişim', url: '/iletisim', is_active: true, display_order: 5 }
+          { id: 'menu-3', title: 'Blog', url: '/blog', is_active: true, display_order: 3 },
+          { id: 'menu-4', title: 'Galeri', url: '/galeri', is_active: true, display_order: 4 },
+          { id: 'menu-5', title: 'SSS', url: '/sss', is_active: true, display_order: 5 },
+          { id: 'menu-6', title: 'Hakkımızda', url: '/hakkimizda', is_active: true, display_order: 6 },
+          { id: 'menu-7', title: 'İletişim', url: '/iletisim', is_active: true, display_order: 7 }
         ])
-      })
+      }
     })
   }, [])
 
