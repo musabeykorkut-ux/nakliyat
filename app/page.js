@@ -60,11 +60,12 @@ export default function HomePage() {
   const [settings, setSettings] = useState(null)
   const [sliders, setSliders] = useState([])
   const [heroContent, setHeroContent] = useState(null)
+  const [tabs, setTabs] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [servicesRes, locationsRes, faqsRes, testimonialsRes, blogRes, settingsRes, slidersRes, heroRes] = await Promise.all([
+        const [servicesRes, locationsRes, faqsRes, testimonialsRes, blogRes, settingsRes, slidersRes, heroRes, tabsRes] = await Promise.all([
           fetch('/api/services/featured'),
           fetch('/api/locations'),
           fetch('/api/faq'),
@@ -72,10 +73,11 @@ export default function HomePage() {
           fetch('/api/blog/featured'),
           fetch('/api/settings'),
           fetch('/api/admin/sliders'),
-          fetch('/api/admin/hero-content')
+          fetch('/api/admin/hero-content'),
+          fetch('/api/admin/tabs')
         ])
 
-        const [servicesData, locationsData, faqsData, testimonialsData, blogData, settingsData, slidersData, heroData] = await Promise.all([
+        const [servicesData, locationsData, faqsData, testimonialsData, blogData, settingsData, slidersData, heroData, tabsData] = await Promise.all([
           servicesRes.json(),
           locationsRes.json(),
           faqsRes.json(),
@@ -83,7 +85,8 @@ export default function HomePage() {
           blogRes.json(),
           settingsRes.json(),
           slidersRes.json(),
-          heroRes.json()
+          heroRes.json(),
+          tabsRes.json()
         ])
 
         if (servicesData.length) setServices(servicesData)
@@ -94,6 +97,7 @@ export default function HomePage() {
         if (settingsData) setSettings(settingsData)
         if (slidersData.length) setSliders(slidersData)
         if (heroData) setHeroContent(heroData)
+        if (tabsData.length) setTabs(tabsData)
       } catch (error) {
         console.error('Data fetch error:', error)
       }
