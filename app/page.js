@@ -520,6 +520,39 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* FAQ Section - SSS */}
+      <section className="py-16 bg-background">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Sık Sorulan Sorular</h2>
+            <p className="text-lg text-muted-foreground">Merak ettikleriniz hakkında her şey</p>
+          </div>
+          
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={faq.id} value={`faq-${index}`}>
+                  <AccordionTrigger className="text-left font-semibold">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+            
+            <div className="text-center mt-8">
+              <Link href="/sss">
+                <Button variant="outline" size="lg">
+                  Tüm Soruları Gör <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="py-16 bg-primary">
         <div className="container text-center">
