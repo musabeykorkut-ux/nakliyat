@@ -228,6 +228,92 @@ CREATE POLICY "Allow public insert" ON contact_messages FOR INSERT WITH CHECK (t
 CREATE POLICY "Allow public update" ON contact_messages FOR UPDATE USING (true);
 CREATE POLICY "Allow public delete" ON contact_messages FOR DELETE USING (true);
 
+-- 9. GALLERY (Galeri)
+-- =============================================
+DROP TABLE IF EXISTS gallery;
+CREATE TABLE gallery (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  image TEXT NOT NULL,
+  category TEXT,
+  description TEXT,
+  display_order INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE gallery ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read" ON gallery FOR SELECT USING (true);
+CREATE POLICY "Allow public insert" ON gallery FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public update" ON gallery FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete" ON gallery FOR DELETE USING (true);
+
+-- Insert sample gallery items
+INSERT INTO gallery (id, title, image, category, display_order, is_active) VALUES
+('gal-1', 'Ev Taşıma', 'https://images.unsplash.com/photo-1602750766769-8db8d49cc369?w=600', 'Nakliyat', 1, true),
+('gal-2', 'Nakliye Aracı', 'https://images.unsplash.com/photo-1585541571714-01aa54eaf7c2?w=600', 'Araçlar', 2, true),
+('gal-3', 'Paketleme', 'https://images.unsplash.com/photo-1577075473292-5f62dfae5522?w=600', 'Hizmetler', 3, true),
+('gal-4', 'Yük Taşıma', 'https://images.unsplash.com/photo-1587149185211-28a2ef4c9a10?w=600', 'Nakliyat', 4, true);
+
+-- 10. SEO SETTINGS (SEO Ayarları)
+-- =============================================
+DROP TABLE IF EXISTS seo_settings;
+CREATE TABLE seo_settings (
+  id TEXT PRIMARY KEY,
+  page_name TEXT NOT NULL UNIQUE,
+  meta_title TEXT,
+  meta_description TEXT,
+  meta_keywords TEXT,
+  canonical_url TEXT,
+  og_title TEXT,
+  og_description TEXT,
+  og_image TEXT,
+  twitter_title TEXT,
+  twitter_description TEXT,
+  twitter_image TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE seo_settings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read" ON seo_settings FOR SELECT USING (true);
+CREATE POLICY "Allow public insert" ON seo_settings FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public update" ON seo_settings FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete" ON seo_settings FOR DELETE USING (true);
+
+-- Insert default SEO settings
+INSERT INTO seo_settings (id, page_name, meta_title, meta_description, meta_keywords) VALUES
+('seo-1', 'anasayfa', 'Baraj Nakliyat | Adana Evden Eve Nakliyat', 'Adana evden eve nakliyat, asansörlü taşımacılık, şehir içi ve şehirler arası nakliyat hizmetleri. Sarıçam ve Çukurova bölgelerinde güvenilir taşımacılık.', 'adana nakliyat, evden eve nakliyat, asansörlü taşımacılık'),
+('seo-2', 'hizmetler', 'Hizmetlerimiz | Baraj Nakliyat', 'Adana''da evden eve nakliyat, asansörlü taşımacılık, şehir içi ve şehirler arası nakliyat hizmetleri.', 'nakliyat hizmetleri, ev taşıma, ofis taşıma'),
+('seo-3', 'iletisim', 'İletişim | Baraj Nakliyat', 'Baraj Nakliyat ile iletişime geçin. Ücretsiz teklif alın.', 'iletişim, teklif al, adana nakliyat');
+
+-- 11. HOMEPAGE (Anasayfa Ayarları)
+-- =============================================
+DROP TABLE IF EXISTS homepage;
+CREATE TABLE homepage (
+  id TEXT PRIMARY KEY,
+  hero_title TEXT DEFAULT 'Adana Evden Eve Nakliyat',
+  hero_subtitle TEXT DEFAULT 'Sarıçam ve Çukurova''da Profesyonel Taşımacılık',
+  hero_description TEXT DEFAULT '10+ yıllık tecrübemizle sigortalı, güvenli ve ekonomik evden eve nakliyat hizmeti sunuyoruz.',
+  hero_image TEXT DEFAULT 'https://images.unsplash.com/photo-1602750766769-8db8d49cc369?w=1920',
+  cta_title TEXT DEFAULT 'Adana''da Güvenilir Evden Eve Nakliyat',
+  cta_description TEXT DEFAULT 'Hemen arayın, ücretsiz ekspertiz ve fiyat teklifi alın!',
+  why_us_title TEXT DEFAULT 'Neden Baraj Nakliyat?',
+  why_us_subtitle TEXT DEFAULT 'Yılların tecrübesi ve binlerce mutlu müşteri',
+  process_title TEXT DEFAULT 'Nasıl Çalışırız?',
+  process_subtitle TEXT DEFAULT '5 kolay adımda taşınma süreci',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE homepage ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read" ON homepage FOR SELECT USING (true);
+CREATE POLICY "Allow public insert" ON homepage FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public update" ON homepage FOR UPDATE USING (true);
+
+-- Insert default homepage settings
+INSERT INTO homepage (id) VALUES ('default');
+
 -- 9. STORAGE BUCKET (images bucket için RLS)
 -- =============================================
 -- Supabase Dashboard > Storage > Policies kısmından "images" bucket için:
