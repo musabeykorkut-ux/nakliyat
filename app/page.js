@@ -207,9 +207,9 @@ export default function HomePage() {
       {/* Hero Content - Slider Altı Makale */}
       {heroContent && heroContent.is_active && (
         <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-primary mb-6">{heroContent.title}</h1>
-            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: heroContent.content }} />
+            <div className="prose prose-lg max-w-4xl mx-auto text-left" dangerouslySetInnerHTML={{ __html: heroContent.content }} />
           </div>
         </section>
       )}
