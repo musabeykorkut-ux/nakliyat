@@ -1175,6 +1175,15 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json(data))
     }
 
+    // =====================
+    // SEO SETTINGS (PUBLIC)
+    // =====================
+    if (route.startsWith('/api/seo-settings/') && method === 'GET') {
+      const pageKey = route.split('/').pop()
+      const { data } = await supabase.from('seo_settings').select('*').eq('page_name', pageKey).single()
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
     // Route not found
     return handleCORS(NextResponse.json(
       { error: `Route ${route} not found` },
