@@ -395,6 +395,8 @@ export default function HomePage() {
                 </CardContent>
               </Card>
             </TabsContent>
+              </>
+            )}
           </Tabs>
         </div>
       </section>
