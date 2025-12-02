@@ -214,62 +214,170 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Tabs Section */}
+      {/* Tabs Section - 3 Tab + Makaleler */}
       <section className="py-16 bg-muted">
         <div className="container">
-          <Tabs defaultValue="hizmetler" className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8">
-              <TabsTrigger value="hizmetler">Hizmetler</TabsTrigger>
-              <TabsTrigger value="semtler">Semtler</TabsTrigger>
-              <TabsTrigger value="sss">SSS</TabsTrigger>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Nakliyat Hakkında</h2>
+            <p className="text-lg text-muted-foreground">Bilmeniz gereken her şey</p>
+          </div>
+          
+          <Tabs defaultValue="tab1" className="w-full">
+            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8 h-auto">
+              <TabsTrigger value="tab1" className="py-3">Adana Nakliyat</TabsTrigger>
+              <TabsTrigger value="tab2" className="py-3">Adana Ev Taşıma</TabsTrigger>
+              <TabsTrigger value="tab3" className="py-3">Nakliyat Süresi</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="hizmetler">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {services.map((service) => (
-                  <Link key={service.id} href={`/hizmetler/${service.slug}`}>
-                    <Card className="text-center p-4 hover:shadow-md hover:border-primary transition-all cursor-pointer h-full">
-                      <Truck className="h-8 w-8 mx-auto mb-2 text-primary" />
-                      <p className="font-medium text-sm">{service.title}</p>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="semtler">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {locations.map((location) => (
-                  <Link key={location.id} href={`/hizmetler/${location.slug}-nakliyat`}>
-                    <Card className="text-center p-4 hover:shadow-md hover:border-primary transition-all cursor-pointer">
-                      <MapPin className="h-8 w-8 mx-auto mb-2 text-primary" />
-                      <p className="font-medium">{location.name}</p>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="sss">
-              <Card className="max-w-3xl mx-auto">
-                <CardContent className="pt-6">
-                  <Accordion type="single" collapsible className="w-full">
-                    {faqs.slice(0, 5).map((faq, index) => (
-                      <AccordionItem key={faq.id} value={`item-${index}`}>
-                        <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                        <AccordionContent>{faq.answer}</AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
+            <TabsContent value="tab1">
+              <Card className="max-w-4xl mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl">Adana Nakliyat Hizmetleri</CardTitle>
+                </CardHeader>
+                <CardContent className="prose max-w-none">
+                  <p className="text-lg mb-4">
+                    Adana'da evden eve nakliyat hizmeti arıyorsanız, doğru yerdesiniz. Baraj Nakliyat olarak 10 yılı aşkın tecrübemizle 
+                    Adana'nın tüm ilçelerinde profesyonel taşımacılık hizmeti sunuyoruz.
+                  </p>
+                  
+                  <h3 className="text-xl font-semibold mt-6 mb-3">Adana'da Hizmet Verdiğimiz Bölgeler</h3>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li><strong>Sarıçam:</strong> Sarıçam ilçesinde yerel bilgimiz ve tecrübemizle hızlı hizmet</li>
+                    <li><strong>Çukurova:</strong> Çukurova'nın her noktasına profesyonel taşımacılık</li>
+                    <li><strong>Seyhan:</strong> Seyhan merkez ve tüm mahallelerinde güvenli nakliyat</li>
+                    <li><strong>Yüreğir:</strong> Yüreğir bölgesinde ekonomik ve kaliteli hizmet</li>
+                  </ul>
+                  
+                  <h3 className="text-xl font-semibold mt-6 mb-3">Neden Baraj Nakliyat?</h3>
+                  <p>
+                    Adana'da evden eve nakliyat sektöründe uzun yıllardır hizmet veren firmamız, müşteri memnuniyetini 
+                    ön planda tutar. Sigortalı taşımacılık, profesyonel ekip ve uygun fiyat politikamızla tercih edilen 
+                    nakliyat firmasıyız.
+                  </p>
                 </CardContent>
               </Card>
-              <div className="text-center mt-6">
-                <Link href="/sss">
-                  <Button variant="outline">Tüm Soruları Gör <ArrowRight className="ml-2 h-4 w-4" /></Button>
-                </Link>
-              </div>
+            </TabsContent>
+            
+            <TabsContent value="tab2">
+              <Card className="max-w-4xl mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl">Adana Ev Taşıma Hizmeti</CardTitle>
+                </CardHeader>
+                <CardContent className="prose max-w-none">
+                  <p className="text-lg mb-4">
+                    Ev taşıma işlemi stresli bir süreç olabilir. Ancak Baraj Nakliyat ile Adana'da ev taşımak artık çok kolay! 
+                    Deneyimli ekibimiz ve modern araç filomu ile eşyalarınızı güvenle yeni adresinize taşıyoruz.
+                  </p>
+                  
+                  <h3 className="text-xl font-semibold mt-6 mb-3">Ev Taşıma Sürecimiz</h3>
+                  <ol className="list-decimal pl-6 space-y-3">
+                    <li><strong>Ücretsiz Keşif:</strong> Uzman ekibimiz evinize gelir, eşyalarınızı inceler ve size ücretsiz fiyat teklifi sunar</li>
+                    <li><strong>Paketleme:</strong> Profesyonel paketleme malzemeleri ile tüm eşyalarınızı özenle paketleriz</li>
+                    <li><strong>Taşıma:</strong> Eğitimli personelimiz ve modern araçlarımızla güvenli taşıma gerçekleştiririz</li>
+                    <li><strong>Yerleştirme:</strong> Yeni evinizde eşyalarınızı istediğiniz yerlere yerleştiririz</li>
+                  </ol>
+                  
+                  <h3 className="text-xl font-semibold mt-6 mb-3">Özel Hizmetlerimiz</h3>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>Asansörlü taşımacılık (8 kata kadar)</li>
+                    <li>Eşya demontaj ve montaj hizmeti</li>
+                    <li>Özel paketleme (cam eşya, antika, elektronik)</li>
+                    <li>Sigortalı taşımacılık garantisi</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="tab3">
+              <Card className="max-w-4xl mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl">Evden Eve Nakliyat Süresi</CardTitle>
+                </CardHeader>
+                <CardContent className="prose max-w-none">
+                  <p className="text-lg mb-4">
+                    Evden eve nakliyat ne kadar sürer? Bu, en çok merak edilen sorulardan biridir. Taşınma süresi birçok faktöre 
+                    bağlı olarak değişkenlik gösterir. İşte detaylı bilgiler:
+                  </p>
+                  
+                  <h3 className="text-xl font-semibold mt-6 mb-3">Süreyi Etkileyen Faktörler</h3>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li><strong>Ev Büyüklüğü:</strong> 1+1 daire: 2-4 saat, 2+1 daire: 4-6 saat, 3+1 veya daha büyük: 6-8 saat</li>
+                    <li><strong>Eşya Miktarı:</strong> Eşya miktarı arttıkça taşıma süresi de doğal olarak uzar</li>
+                    <li><strong>Kat Sayısı:</strong> Asansörlü binalarda daha hızlı, asansörsüz binalarda süre uzar</li>
+                    <li><strong>Mesafe:</strong> Şehir içi kısa mesafelerde 4-6 saat, uzak mesafelerde 8-10 saat sürebilir</li>
+                    <li><strong>Özel Eşyalar:</strong> Piyano, antika gibi özel eşyalar ekstra zaman gerektirir</li>
+                  </ul>
+                  
+                  <h3 className="text-xl font-semibold mt-6 mb-3">Ortalama Süre Tablosu</h3>
+                  <div className="bg-muted p-4 rounded-lg mt-4">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2">Ev Tipi</th>
+                          <th className="text-left py-2">Ortalama Süre</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b"><td className="py-2">1+1 Daire</td><td className="py-2">3-4 saat</td></tr>
+                        <tr className="border-b"><td className="py-2">2+1 Daire</td><td className="py-2">5-6 saat</td></tr>
+                        <tr className="border-b"><td className="py-2">3+1 Daire</td><td className="py-2">7-8 saat</td></tr>
+                        <tr><td className="py-2">Villa/Müstakil</td><td className="py-2">1-2 gün</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <p className="mt-6">
+                    <strong>Not:</strong> Bu süreler ortalama değerlerdir. Kesin süre için ücretsiz keşif hizmetimizden 
+                    faydalanabilirsiniz. Ekibimiz size detaylı bilgi verecektir.
+                  </p>
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
+        </div>
+      </section>
+      
+      {/* Featured Blog Posts - Öne Çıkan 3 Blog */}
+      <section className="py-16 bg-background">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Blog Yazılarımız</h2>
+            <p className="text-lg text-muted-foreground">Taşınma ile ilgili ipuçları ve bilgiler</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {blogPosts.slice(0, 3).map((post) => (
+              <Card key={post.id} className="group hover:shadow-xl transition-all overflow-hidden">
+                {post.image && (
+                  <div className="relative h-48 overflow-hidden">
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                  </div>
+                )}
+                <CardHeader>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <span className="px-2 py-1 bg-primary/10 text-primary rounded">{post.category}</span>
+                  </div>
+                  <CardTitle className="text-xl group-hover:text-primary transition-colors">{post.title}</CardTitle>
+                  <CardDescription>{post.excerpt}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href={`/blog/${post.slug}`}>
+                    <Button variant="outline" className="w-full">
+                      Devamını Oku <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center mt-8">
+            <Link href="/blog">
+              <Button variant="outline" size="lg">
+                Tüm Yazıları Gör <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
