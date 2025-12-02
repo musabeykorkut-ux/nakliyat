@@ -73,13 +73,15 @@ export default function HomePage() {
           fetch('/api/admin/hero-content')
         ])
 
-        const [servicesData, locationsData, faqsData, testimonialsData, blogData, settingsData] = await Promise.all([
+        const [servicesData, locationsData, faqsData, testimonialsData, blogData, settingsData, slidersData, heroData] = await Promise.all([
           servicesRes.json(),
           locationsRes.json(),
           faqsRes.json(),
           testimonialsRes.json(),
           blogRes.json(),
-          settingsRes.json()
+          settingsRes.json(),
+          slidersRes.json(),
+          heroRes.json()
         ])
 
         if (servicesData.length) setServices(servicesData)
