@@ -1,0 +1,14 @@
+ACIL DÜZELTMELER:
+
+1. ✅ Supabase Storage - images bucket + policies
+2. ✅ Resim yükleme endpoint düzelt
+3. ✅ Logo/Favicon admin sayfası
+4. ✅ Slider yönetim sayfası
+5. ✅ Ana sayfa content yönetimi (tab + makale)
+6. ✅ Menü yönetimi sayfası
+7. ✅ Footer yönetimi sayfası
+8. ✅ Galeri resim yükleme düzelt
+9. ✅ SEO tam ayarları
+10. ✅ TEST HEPSİNİ
+
+BAŞLIYORUM...
