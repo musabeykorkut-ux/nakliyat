@@ -92,6 +92,8 @@ export default function HomePage() {
         if (testimonialsData.length) setTestimonials(testimonialsData)
         if (blogData.length) setBlogPosts(blogData)
         if (settingsData) setSettings(settingsData)
+        if (slidersData.length) setSliders(slidersData)
+        if (heroData) setHeroContent(heroData)
       } catch (error) {
         console.error('Data fetch error:', error)
       }
