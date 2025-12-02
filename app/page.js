@@ -271,23 +271,36 @@ export default function HomePage() {
             <p className="text-lg text-muted-foreground">Bilmeniz gereken her şey</p>
           </div>
           
-          <Tabs defaultValue="tab1" className="w-full">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8 h-auto">
-              <TabsTrigger value="tab1" className="py-3">Adana Nakliyat</TabsTrigger>
-              <TabsTrigger value="tab2" className="py-3">Adana Ev Taşıma</TabsTrigger>
-              <TabsTrigger value="tab3" className="py-3">Nakliyat Süresi</TabsTrigger>
+          <Tabs defaultValue={tabs[0]?.tab_id || "tab1"} className="w-full">
+            <TabsList className="grid w-full max-w-2xl mx-auto mb-8 h-auto" style={{gridTemplateColumns: `repeat(${tabs.length || 3}, minmax(0, 1fr))`}}>
+              {tabs.map(tab => (
+                <TabsTrigger key={tab.id} value={tab.tab_id} className="py-3">{tab.title}</TabsTrigger>
+              ))}
             </TabsList>
             
-            <TabsContent value="tab1">
-              <Card className="max-w-4xl mx-auto">
-                <CardHeader>
-                  <CardTitle className="text-2xl">Adana Nakliyat Hizmetleri</CardTitle>
-                </CardHeader>
-                <CardContent className="prose max-w-none">
-                  <p className="text-lg mb-4">
-                    Adana'da evden eve nakliyat hizmeti arıyorsanız, doğru yerdesiniz. Baraj Nakliyat olarak 10 yılı aşkın tecrübemizle 
-                    Adana'nın tüm ilçelerinde profesyonel taşımacılık hizmeti sunuyoruz.
-                  </p>
+            {tabs.map(tab => (
+              <TabsContent key={tab.id} value={tab.tab_id}>
+                <Card className="max-w-4xl mx-auto">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">{tab.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="prose max-w-none" dangerouslySetInnerHTML={{ __html: tab.content }} />
+                </Card>
+              </TabsContent>
+            ))}
+
+            {tabs.length === 0 && (
+              <>
+                <TabsContent value="tab1">
+                  <Card className="max-w-4xl mx-auto">
+                    <CardHeader>
+                      <CardTitle className="text-2xl">Adana Nakliyat Hizmetleri</CardTitle>
+                    </CardHeader>
+                    <CardContent className="prose max-w-none">
+                      <p className="text-lg mb-4">
+                        Adana'da evden eve nakliyat hizmeti arıyorsanız, doğru yerdesiniz. Baraj Nakliyat olarak 10 yılı aşkın tecrübemizle 
+                        Adana'nın tüm ilçelerinde profesyonel taşımacılık hizmeti sunuyoruz.
+                      </p>
                   
                   <h3 className="text-xl font-semibold mt-6 mb-3">Adana'da Hizmet Verdiğimiz Bölgeler</h3>
                   <ul className="list-disc pl-6 space-y-2">
