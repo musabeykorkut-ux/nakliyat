@@ -117,10 +117,10 @@ export default function HomePage() {
               Adana Evden Eve Nakliyat
             </h1>
             <p className="text-xl md:text-2xl mb-4 text-white/90">
-              Sar\u0131\u00e7am ve \u00c7ukurova'da Profesyonel Ta\u015f\u0131mac\u0131l\u0131k
+              Sarıçam ve Çukurova'da Profesyonel Taşımacılık
             </p>
             <p className="text-lg mb-8 text-white/80">
-              10+ y\u0131ll\u0131k tecr\u00fcbemizle sigortal\u0131, g\u00fcvenli ve ekonomik evden eve nakliyat hizmeti sunuyoruz.
+              10+ yıllık tecrübemizle sigortalı, güvenli ve ekonomik evden eve nakliyat hizmeti sunuyoruz.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
