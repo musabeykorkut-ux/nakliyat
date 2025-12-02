@@ -12,7 +12,36 @@ export default function Header() {
 
   useEffect(() => {
     fetch('/api/settings').then(r => r.json()).then(setSettings)
-    fetch('/api/admin/menu').then(r => r.json()).then(data => setMenuItems(data || []))
+    fetch('/api/admin/menu').then(r => r.json()).then(data => {
+      setMenuItems(data || [])
+    }).catch(() => {
+      // Fallback: Hizmetleri çek ve menüye ekle
+      fetch('/api/services').then(r => r.json()).then(services => {
+        const serviceMenu = {
+          id: 'services',
+          title: 'Hizmetler',
+          url: '/hizmetler',
+          is_dropdown: true,
+          is_active: true,
+          display_order: 2
+        }
+        const serviceChildren = services.map(s => ({
+          id: s.id,
+          title: s.title,
+          url: `/hizmetler/${s.slug}`,
+          parent_id: 'services',
+          is_active: true
+        }))
+        setMenuItems([
+          { id: '1', title: 'Ana Sayfa', url: '/', is_active: true, display_order: 1 },
+          serviceMenu,
+          ...serviceChildren,
+          { id: '3', title: 'Blog', url: '/blog', is_active: true, display_order: 3 },
+          { id: '4', title: 'Hakkımızda', url: '/hakkimizda', is_active: true, display_order: 4 },
+          { id: '5', title: 'İletişim', url: '/iletisim', is_active: true, display_order: 5 }
+        ])
+      })
+    })
   }, [])
 
   const phone = settings?.phone || '0 (536) 740 92 06'
