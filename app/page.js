@@ -178,16 +178,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Hero Content - Slider Altı Makale */}
-      {heroContent && heroContent.is_active && (
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-6">{heroContent.title}</h1>
-            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: heroContent.content }} />
-          </div>
-        </section>
-      )}
-
       {/* Quick Contact Strip */}
       <section className="bg-secondary py-4">
         <div className="container">
