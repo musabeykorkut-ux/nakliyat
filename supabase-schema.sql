@@ -114,6 +114,8 @@ CREATE TABLE blog_posts (
   meta_title TEXT,
   meta_description TEXT,
   meta_keywords TEXT,
+  og_image TEXT,
+  canonical_url TEXT,
   published_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   status TEXT DEFAULT 'published',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
