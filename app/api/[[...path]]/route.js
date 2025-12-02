@@ -841,6 +841,178 @@ async function handleRoute(request, { params }) {
     }
 
     // =====================
+    // ADMIN CRUD - Gallery
+    // =====================
+    if (route === '/admin/gallery' && method === 'GET') {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .order('display_order', { ascending: true })
+      
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route === '/admin/gallery' && method === 'POST') {
+      const body = await request.json()
+      
+      const item = {
+        id: uuidv4(),
+        ...body
+      }
+      
+      const { data, error } = await supabase
+        .from('gallery')
+        .insert([item])
+        .select()
+        .single()
+      
+      if (error) {
+        return handleCORS(NextResponse.json({ error: error.message }, { status: 500 }))
+      }
+      
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/gallery/') && method === 'PUT') {
+      const id = path[2]
+      const body = await request.json()
+      
+      const { data, error } = await supabase
+        .from('gallery')
+        .update(body)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) {
+        return handleCORS(NextResponse.json({ error: error.message }, { status: 500 }))
+      }
+      
+      return handleCORS(NextResponse.json(data))
+    }
+
+    if (route.startsWith('/admin/gallery/') && method === 'DELETE') {
+      const id = path[2]
+      
+      const { error } = await supabase
+        .from('gallery')
+        .delete()
+        .eq('id', id)
+      
+      if (error) {
+        return handleCORS(NextResponse.json({ error: error.message }, { status: 500 }))
+      }
+      
+      return handleCORS(NextResponse.json({ success: true }))
+    }
+
+    // =====================
+    // ADMIN - SEO Settings
+    // =====================
+    if (route === '/admin/seo' && method === 'GET') {
+      const { data, error } = await supabase
+        .from('seo_settings')
+        .select('*')
+        .order('page_name', { ascending: true })
+      
+      return handleCORS(NextResponse.json(data || []))
+    }
+
+    if (route === '/admin/seo' && method === 'POST') {
+      const body = await request.json()
+      
+      // Check if page already exists
+      const { data: existing } = await supabase
+        .from('seo_settings')
+        .select('id')
+        .eq('page_name', body.page_name)
+        .single()
+      
+      let result
+      if (existing) {
+        result = await supabase
+          .from('seo_settings')
+          .update(body)
+          .eq('id', existing.id)
+          .select()
+          .single()
+      } else {
+        result = await supabase
+          .from('seo_settings')
+          .insert([{ id: uuidv4(), ...body }])
+          .select()
+          .single()
+      }
+      
+      if (result.error) {
+        return handleCORS(NextResponse.json({ error: result.error.message }, { status: 500 }))
+      }
+      
+      return handleCORS(NextResponse.json(result.data))
+    }
+
+    if (route.startsWith('/admin/seo/') && method === 'PUT') {
+      const id = path[2]
+      const body = await request.json()
+      
+      const { data, error } = await supabase
+        .from('seo_settings')
+        .update(body)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) {
+        return handleCORS(NextResponse.json({ error: error.message }, { status: 500 }))
+      }
+      
+      return handleCORS(NextResponse.json(data))
+    }
+
+    // =====================
+    // ADMIN - Homepage Settings
+    // =====================
+    if (route === '/admin/homepage' && method === 'GET') {
+      const { data, error } = await supabase
+        .from('homepage')
+        .select('*')
+        .single()
+      
+      return handleCORS(NextResponse.json(data || {}))
+    }
+
+    if (route === '/admin/homepage' && method === 'PUT') {
+      const body = await request.json()
+      
+      const { data: existing } = await supabase
+        .from('homepage')
+        .select('id')
+        .single()
+      
+      let result
+      if (existing) {
+        result = await supabase
+          .from('homepage')
+          .update(body)
+          .eq('id', existing.id)
+          .select()
+          .single()
+      } else {
+        result = await supabase
+          .from('homepage')
+          .insert([{ id: uuidv4(), ...body }])
+          .select()
+          .single()
+      }
+      
+      if (result.error) {
+        return handleCORS(NextResponse.json({ error: result.error.message }, { status: 500 }))
+      }
+      
+      return handleCORS(NextResponse.json(result.data))
+    }
+
+    // =====================
     // ADMIN - File Upload
     // =====================
     if (route === '/admin/upload' && method === 'POST') {
